@@ -29,11 +29,8 @@ public class Location{
         return this.freeSeats;
     }
 
-    /*
-    double division?
-    */
     public double getFreeSeatsPercentage(){
-        return this.freeSeats/this.totalSeats;
+        return ((double) this.freeSeats)/this.totalSeats;
     }
 
     public int getTotalSeats(){
