@@ -3,8 +3,6 @@ import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class LocationManager{
 
@@ -14,8 +12,60 @@ public class LocationManager{
         //read in data
         readCSV("desktops.csv");
 
-        //perform one task after another and print results
-        System.out.println(findLocationWithHighestAbsoluteAvailability().toString());
+        /*** perform one task after another and print results ***/
+
+        //Task 1: total absolute amount of free seats
+        int freeSeats = 0;
+        for(Location location: locations){
+            freeSeats += location.getFreeSeats();
+        } 
+        System.out.println("Total number of free seats: "+freeSeats);
+
+        //Task 2: total percentage
+        int total = 0;
+        for(Location location: locations){
+            total += location.getTotalSeats();
+        } 
+        System.out.printf("Total percentage of free seats: %.2f %% \n",((double) freeSeats)/total);
+
+        //Task 3: percentage of each room
+        for(Location location: locations){
+            System.out.printf("Room %s in %s has %.2f %% free seats.\n", location.getRoomName(), location.getBuilding(),location.getFreeSeatsPercentage());
+        } 
+
+        //Task 4: maximum free seats
+        Location maximumFree = findLocationWithHighestAbsoluteAvailability();
+        System.out.printf("Room %s in building %s has currently the most free absolute seats: %d seat(s).\n",maximumFree.getRoomName(), maximumFree.getBuilding(),maximumFree.getFreeSeats() );
+        maximumFree = findLocationWithHighestRelativeAvailability();
+        System.out.printf("Room %s in building %s has currently the hightest percentage free seats: %.2f %%.\n",maximumFree.getRoomName(), maximumFree.getBuilding(),maximumFree.getFreeSeatsPercentage() );
+
+        //Task 5: distance to maximum location
+        double distance = getEuclideanDistance(51.523553, -0.132521, maximumFree);
+        System.out.printf("The distance to the location with maximum free seats is %.2f metres.\n",distance);
+
+        //Task 6: closest building with free seats
+        Location closest = findClosestLocationWithFreeSeats(51.523553, -0.132521);
+        System.out.printf("The closest building with free seats is %s.\n",closest.getBuilding());
+        
+        //Task 7: best area
+        System.out.printf("In the area with postcode %s there are the most free seats.\n",getAreaWithMostFreeSeats());
+
+        //Task 8: multiple rooms per building 
+        
+        //create set of unique buildings
+        List<String> buildings = new ArrayList<String>();
+        for(Location location : locations){
+            String building = location.getBuilding();
+            if(!buildings.contains(building)){
+                buildings.add(building);
+            }
+        }
+        for(String building: buildings){
+            if(multipleRoomsInBuilding(building)){
+                System.out.printf("%s has multiple rooms with desktops seats.\n",building);
+            }
+        }
+        
     }
 
     private static void readCSV(String filename){
@@ -80,23 +130,10 @@ public class LocationManager{
 
     /*check this */
     private static double getEuclideanDistance(double myLatitude, double myLongitude, Location location){
-        double degreeLength = 110.25;
+        double degreeLength = 110.25*1000;
         double x = myLatitude - location.getLatitude();
         double y = (myLongitude - location.getLongitude()) * Math.cos(myLatitude);
         return degreeLength*Math.sqrt(x*x + y*y);
-    }
-
-    private static Location findClosestLocation(double myLatitude, double myLongitude){
-        Location closestLocation = locations.get(0);
-        double closestDistance = getEuclideanDistance(myLatitude, myLongitude, closestLocation);
-        for(Location location: locations){
-            double distance = getEuclideanDistance(myLatitude, myLongitude, location);
-            if(distance < closestDistance){
-                closestDistance = distance;
-                closestLocation = location;
-            }
-        }
-        return closestLocation;
     }
 
     private static Location findClosestLocationWithFreeSeats(double myLatitude, double myLongitude){
@@ -139,7 +176,6 @@ public class LocationManager{
                 maximalFreeSeats = freeSeatsInArea;
                 bestArea = area;
             }
-
         }
 
         return bestArea;

@@ -30,7 +30,7 @@ public class Location{
     }
 
     public double getFreeSeatsPercentage(){
-        return ((double) this.freeSeats)/this.totalSeats;
+        return this.totalSeats != 0 ? ((double) this.freeSeats)/this.totalSeats : 0;
     }
 
     public int getTotalSeats(){
@@ -51,6 +51,10 @@ public class Location{
 
     public String getBuilding(){
         return this.buildingName;
+    }
+
+    public String getRoomName(){
+        return this.roomName;
     }
 
 }
