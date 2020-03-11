@@ -13,7 +13,7 @@ To generate a suitable comma separated values (csv) file from a json file you ca
 To get the current data from the [UCL API](https://uclapi.com) you can use `python requestcsv.py` which will return a `desktops.csv` file. Note that you have to place a UCL API token in the code.
 
 ## Data
-The data comes from [UCL API](https://uclapi.com). It is stored in a csv file and read into the Java program. The [desktops.csv](desktops.csv) gives an example of how the data is structured. One example entry is shown here:
+The data comes from [UCL API](https://uclapi.com). It is stored in a csv file and read into the Java programme. The [desktops.csv](desktops.csv) gives an example of how the data is structured. One example entry is shown here:
 
 ```
 Basement-B115A,51.5241,-0.1346,Cruciform Building,Gower Street,WC1E 6BT,17,22
@@ -47,3 +47,8 @@ Further questions/tasks might be created based on the data.
 * using ArrayLists and List methods
 * creating a set of unique items from a list
 * exception handling
+
+## Open Tasks (for students who finish the other ones earlier)
+1. implement a JSON parser which directly parses the received API request into Java Location objects
+2. do the web request from your code to fetch the current data whenever the programme is executed
+3. improve the visualisation of the results; perhaps with tables
