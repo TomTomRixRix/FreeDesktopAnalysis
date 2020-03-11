@@ -1,3 +1,6 @@
+#exclude sample responses as they are not part of the actual project
+sample_responses/
+
 # Compiled class file
 *.class
 
