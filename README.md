@@ -3,7 +3,7 @@ Exercise for INST0002 lecture at UCL in which data from the UCL API is analysed 
 
 ## Setup, required software and how to run it
 You need a JDK installed on your computer to compile and run the Java files.
-```java
+```
 javac LocationManager.java
 java LocationManager
 ```
